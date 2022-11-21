@@ -17,11 +17,11 @@ const items = [
     key: "2",
     icon: <FundOutlined />,
   },
-  {
-    label: <Link to="/exchanges">Exchanges</Link>,
-    key: "3",
-    icon: <MoneyCollectOutlined />,
-  },
+  // {
+  //   label: <Link to="/exchanges">Exchanges</Link>,
+  //   key: "3",
+  //   icon: <MoneyCollectOutlined />,
+  // },
   { label: <Link to="/news">News</Link>, key: "4", icon: <BulbOutlined /> },
 ];
 
