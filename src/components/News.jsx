@@ -14,11 +14,17 @@ const demoImage =
 
 const News = ({ simplified }) => {
   const [newsCategory, setNewsCategory] = useState("Cryptocurrency");
+  // const { data: cryptoNewsList, isFetching } = useGetCryptoNewsQuery({
+  //   newsCategory,
+  //   count: simplified ? 6 : 12,
+  // });
+  // const cryptoNews = cryptoNewsList?.value;
+
   const { data: cryptoNewsList, isFetching } = useGetCryptoNewsQuery({
     newsCategory,
-    count: simplified ? 6 : 12,
   });
-  const cryptoNews = cryptoNewsList?.value;
+  const cryptoNews = cryptoNewsList?.data;
+
   const { data } = useGetCryptosQuery(100);
 
   if (isFetching) return <Loader />;
@@ -46,38 +52,35 @@ const News = ({ simplified }) => {
           </Select>
         </Col>
       )}
-      {cryptoNews.map((news, i) => (
+      {cryptoNews?.map((news, i) => (
         <Col xs={24} sm={12} lg={8} key={i}>
           <Card hoverable className="news-card">
-            <a href={news.url} target="_blank" rel="noreferrer">
+            <a href={news.link} target="_blank" rel="noreferrer">
               <div className="news-image-container">
                 <Title className="news-title" level={4}>
-                  {news.name}
+                  {news.title}
                 </Title>
                 <img
                   style={{ maxWidth: "200px", maxHeight: "100px" }}
-                  src={news?.image?.thumbnail?.contentUrl || demoImage}
+                  src={news?.photo_url || demoImage}
                   alt="news"
                 />
               </div>
-              <p>
+              {/* <p>
                 {news.description > 100
                   ? `${news.description.substring(0, 100)}...`
                   : news.description}
-              </p>
+              </p> */}
               <div className="provider-container">
                 <div>
                   <Avatar
-                    src={
-                      news.provider[0]?.image?.thumbnail?.contentUrl ||
-                      demoImage
-                    }
+                    src={news?.source_favicon_url || demoImage}
                     alt="news"
                   />
-                  <Text className="provider-name">{news.provider[0].name}</Text>
+                  <Text className="provider-name">{news.source_url}</Text>
                 </div>
                 <Text>
-                  {moment(news.dataPublished).startOf("ss").fromNow()}
+                  {moment(news.published_datetime_utc).startOf("ss").fromNow()}
                 </Text>
               </div>
             </a>
